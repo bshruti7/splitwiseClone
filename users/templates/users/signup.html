@@ -1,18 +1,22 @@
 {% extends "../base.html" %}
 
+{% load static %}
+<link rel="stylesheet" href="{% static 'users/signup.css' %}">
+
 {% block content %}
 
     <h1>This is my Signup Page</h1>
-
-    <form action="/users/signup/" method="POST">
-        {% for field in form.visible_fields %}
-            <div class="fieldWrapper">
-                {{ field.label_tag }}
-                {{ field }}
-            </div>
-        {%  endfor %}
-  <button type="submit" class="btn btn-primary">Sign Up</button>
-    </form>
+    <div class="l-part">
+        <form action="/users/signup/" method="POST">
+            {% for field in form.visible_fields %}
+                <div class="fieldWrapper">
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+            {%  endfor %}
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+    </div>
 
 {% endblock %}
 
