@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import CreateUserSerializer, UserSerializer
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 def index(request):
@@ -35,8 +36,14 @@ def create_user(request):
         'data': None
     }
     if serializer.is_valid():
-        serializer.save()
-        response_data['data'] = serializer.data
+        user = serializer.save()
+
+        refresh = RefreshToken.for_user(user)
+
+        response_data['data'] = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
         return Response(response_data, status=status.HTTP_201_CREATED)
     else:
         response_data['errors'] = serializer.errors
